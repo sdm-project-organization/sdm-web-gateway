@@ -1,6 +1,10 @@
 
-# CONFIG
+# bootstrap.yml
+# `SpringApplicationContext`에 의해 로드되며 `application.yml`보다 앞서 적용됩니다.
+
+##### CONFIG #####
 spring:
+  # {spring.cloud.config.uri}/{spring.application.name}/{spring.profiles.active}
   application:
     name: zuulservice
   profiles:
@@ -9,3 +13,19 @@ spring:
   cloud:
     config:
       enabled: true
+      uri: http://dev.avocadostudio.xyz:12102
+
+---
+spring:
+  # {spring.cloud.config.uri}/{spring.application.name}/{spring.profiles.active}
+  application:
+    name: zuulservice
+  profiles:
+    active:
+      dev
+  cloud:
+    config:
+      enabled: true
+      uri: http://dev.avocadostudio.xyz:12102
+
+

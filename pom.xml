@@ -6,7 +6,7 @@
     <groupId>com.thoughtmechanix</groupId>
     <artifactId>zuulsvr</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
 
     <name>Zuul Proxy Server</name>
     <description>Zuul Proxy Server</description>

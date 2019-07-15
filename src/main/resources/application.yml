@@ -1,20 +1,24 @@
+
+server:
+  port: 5555
+
+spring:
+  profiles: default
+
 management:
   endpoints:
     web:
       exposure:
         include: "*"
 
-server:
-  port: 5555
-
-# Setting logging levels
+##### LOGGING #####
 logging:
     level:
       com.netflix: WARN
       org.springframework.web: WARN
       com.thoughtmechanix: DEBUG
 
-# discovery
+##### DISCOVERY #####
 eureka:
   instance:
     preferIpAddress: true
@@ -22,7 +26,7 @@ eureka:
     registerWithEureka: true
     fetchRegistry: true
     serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://dev.avocadostudio.xyz:12002/eureka/
 
 # gateway
 #zuul:
@@ -31,6 +35,8 @@ eureka:
 #      path: licensestatic/**
 #      # 리본에서 서비스를 찾는데 사용하는 Service-ID 정의
 #      serviceId: licensestatic
+
+
 #ribbon:
 #  eureka:
 #    # 리본에서 유레카 지원을 끈다
