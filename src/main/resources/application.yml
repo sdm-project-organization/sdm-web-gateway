@@ -1,0 +1,69 @@
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+server:
+  port: 5555
+
+# Setting logging levels
+logging:
+    level:
+      com.netflix: WARN
+      org.springframework.web: WARN
+      com.thoughtmechanix: DEBUG
+
+# discovery
+eureka:
+  instance:
+    preferIpAddress: true
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+
+# gateway
+#zuul:
+#  routes:
+#    licensestatic:
+#      path: licensestatic/**
+#      # 리본에서 서비스를 찾는데 사용하는 Service-ID 정의
+#      serviceId: licensestatic
+#ribbon:
+#  eureka:
+#    # 리본에서 유레카 지원을 끈다
+#    enabled: false
+#  licensestatic:
+#    ribbon:
+#      # 요청을 라우팅하는데 사용된 서버 목록
+#      listOfServers: http://licenseservice-static1:8801, http://licenseservice-static2:8802
+
+#zuul:
+#  routes:
+#    # 주울은 키 이름으로 서비스를 식별
+#    licensestatic:
+#      # 라이선싱 서비스에 대한 정적 경로
+#      path: /licensestatic/**
+#      # 유레카를 통하지 않고 주울이 직접 호출할 라이선싱 서비스의 정적 인스턴스를 설정
+#      url: http://licenseservice-static:8081
+
+#zuul:
+#  ignored-services: '*' # 자동경로매핑_모두제외
+#  prefix: /api
+#  routes:
+#    organizationservice: /organization/**
+#    licensingservice: /licensing/**
+
+#zuul:
+#  ignored-service: 'organizationservice' # 자동경로매핑_유지
+#  # ignored-services: 'organizationservice' # 자동경로매핑_제외
+#  # ignored-services: '*' # 자동경로매핑_모두제외
+#  routes:
+#    organizationservice: /organization/**
+
+#zuul:
+#  prefix:  /api
+#  routes:
+#    organizationservice: /organization/**
