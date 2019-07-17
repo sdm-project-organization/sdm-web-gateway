@@ -33,9 +33,9 @@ eureka:
     fetchRegistry: true
     serviceUrl:
       # LOCAL
-      # defaultZone: http://localhost:12001/eureka/
+      defaultZone: http://localhost:12001/eureka/
       # DEV
-      defaultZone: http://dev.avocadostudio.xyz:12002/eureka/
+      # defaultZone: http://dev.avocadostudio.xyz:12002/eureka/
 
 ---
 
