@@ -29,7 +29,6 @@ public class ZuulServerApplication extends SpringBootServletInitializer {
             interceptors.add(new UserContextInterceptor());
             template.setInterceptors(interceptors);
         }
-
         return template;
     }
 

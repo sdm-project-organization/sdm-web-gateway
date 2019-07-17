@@ -1,9 +1,15 @@
 
-server:
-  port: 5555
+##### DEFAULT #####
 
 spring:
   profiles: default
+
+server:
+  port: 12301
+
+# JWT
+signing:
+ key: "345345fsdgsf5345"
 
 management:
   endpoints:
@@ -17,6 +23,46 @@ logging:
       com.netflix: WARN
       org.springframework.web: WARN
       com.thoughtmechanix: DEBUG
+
+##### DISCOVERY #####
+eureka:
+  instance:
+    preferIpAddress: true
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      # LOCAL
+      # defaultZone: http://localhost:12001/eureka/
+      # DEV
+      defaultZone: http://dev.avocadostudio.xyz:12002/eureka/
+
+---
+
+##### DEV #####
+
+spring:
+  profiles: dev
+
+server:
+  port: 8080
+
+# JWT
+signing:
+  key: "345345fsdgsf5345"
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+##### LOGGING #####
+logging:
+  level:
+    com.netflix: WARN
+    org.springframework.web: WARN
+    com.thoughtmechanix: DEBUG
 
 ##### DISCOVERY #####
 eureka:
