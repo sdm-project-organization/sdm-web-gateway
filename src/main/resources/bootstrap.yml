@@ -1,31 +1,27 @@
-
-# bootstrap.yml
-# `SpringApplicationContext`에 의해 로드되며 `application.yml`보다 앞서 적용됩니다.
-
-##### DEFAULT #####
-
-spring:
-  profiles: default
-  # {spring.cloud.config.uri}/{spring.application.name}/{spring.profiles.active}
-  application:
-    name: zuulservice
-  cloud:
-    config:
-      enabled: true
-      # uri: http://localhost:12101
-      uri: http://dev.avocadostudio.xyz:12102
-
----
-##### DEV #####
-
-spring:
-  profiles: dev
-  # {spring.cloud.config.uri}/{spring.application.name}/{spring.profiles.active}
-  application:
-    name: zuulservice
-  cloud:
-    config:
-      enabled: true
-      uri: http://dev.avocadostudio.xyz:12102
-
-
+#
+## bootstrap.yml
+## `SpringApplicationContext`에 의해 로드되며 `application.yml`보다 앞서 적용됩니다.
+#
+###### DEFAULT #####
+#
+#spring:
+#  profiles: default
+#  # {spring.cloud.config.uri}/{spring.application.name}/{spring.profiles.active}
+#  cloud:
+#    config:
+#      enabled: true
+#      # uri: http://localhost:12101
+#      uri: http://dev.avocadostudio.xyz:12102
+#
+#---
+###### DEV #####
+#
+#spring:
+#  profiles: dev
+#  # {spring.cloud.config.uri}/{spring.application.name}/{spring.profiles.active}
+#  cloud:
+#    config:
+#      enabled: true
+#      uri: http://dev.avocadostudio.xyz:12102
+#
+#

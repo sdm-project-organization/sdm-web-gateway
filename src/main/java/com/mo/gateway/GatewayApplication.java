@@ -1,7 +1,7 @@
-package com.thoughtmechanix.zuulsvr;
+package com.mo.gateway;
 
 
-import com.thoughtmechanix.zuulsvr.utils.UserContextInterceptor;
+import com.mo.gateway.utils.UserContextInterceptor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
@@ -16,7 +16,7 @@ import java.util.List;
 
 @SpringBootApplication
 @EnableZuulProxy
-public class ZuulServerApplication extends SpringBootServletInitializer {
+public class GatewayApplication extends SpringBootServletInitializer {
 
     @LoadBalanced
     @Bean
@@ -33,7 +33,7 @@ public class ZuulServerApplication extends SpringBootServletInitializer {
     }
 
     public static void main(String[] args) {
-        SpringApplication.run(ZuulServerApplication.class, args);
+        SpringApplication.run(GatewayApplication.class, args);
     }
 }
 

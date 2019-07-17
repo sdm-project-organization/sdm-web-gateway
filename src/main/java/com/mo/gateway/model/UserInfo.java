@@ -1,4 +1,4 @@
-package com.thoughtmechanix.zuulsvr.model;
+package com.mo.gateway.model;
 
 public class UserInfo {
     String organizationId;

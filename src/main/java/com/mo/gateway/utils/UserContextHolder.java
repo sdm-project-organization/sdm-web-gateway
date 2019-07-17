@@ -1,4 +1,4 @@
-package com.thoughtmechanix.zuulsvr.utils;
+package com.mo.gateway.utils;
 
 
 import org.springframework.util.Assert;

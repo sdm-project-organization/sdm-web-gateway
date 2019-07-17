@@ -1,4 +1,4 @@
-package com.thoughtmechanix.zuulsvr.config;
+package com.mo.gateway.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;

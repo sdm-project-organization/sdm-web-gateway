@@ -1,4 +1,4 @@
-package com.thoughtmechanix.zuulsvr.filters;
+package com.mo.gateway.filters;
 
 import com.netflix.zuul.context.RequestContext;
 import org.springframework.stereotype.Component;

@@ -3,9 +3,11 @@
 
 spring:
   profiles: default
+  application:
+    name: gateway
 
 server:
-  port: 12301
+  port: 5555
 
 # JWT
 signing:
@@ -17,71 +19,28 @@ management:
       exposure:
         include: "*"
 
-##### LOGGING #####
 logging:
     level:
       com.netflix: WARN
       org.springframework.web: WARN
       com.thoughtmechanix: DEBUG
 
-##### DISCOVERY #####
 eureka:
   instance:
-    preferIpAddress: true
+    hostname: localhost
   client:
     registerWithEureka: true
     fetchRegistry: true
     serviceUrl:
-      # LOCAL
-      defaultZone: http://localhost:12001/eureka/
-      # DEV
-      # defaultZone: http://dev.avocadostudio.xyz:12002/eureka/
+      defaultZone: http://${eureka.instance.hostname}:8761/eureka/
 
----
-
-##### DEV #####
-
-spring:
-  profiles: dev
-
-server:
-  port: 8080
-
-# JWT
-signing:
-  key: "345345fsdgsf5345"
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
-
-##### LOGGING #####
-logging:
-  level:
-    com.netflix: WARN
-    org.springframework.web: WARN
-    com.thoughtmechanix: DEBUG
-
-##### DISCOVERY #####
-eureka:
-  instance:
-    preferIpAddress: true
-  client:
-    registerWithEureka: true
-    fetchRegistry: true
-    serviceUrl:
-      defaultZone: http://dev.avocadostudio.xyz:12002/eureka/
-
-# gateway
 #zuul:
+##  ignored-service: 'gateway' # 자동경로매핑 유지
+##  ignored-services: 'gateway' # 자동경로매핑 제외
+#  ignored-services: '*' # 자동경로매핑 모두제외
+#  prefix: /api
 #  routes:
-#    licensestatic:
-#      path: licensestatic/**
-#      # 리본에서 서비스를 찾는데 사용하는 Service-ID 정의
-#      serviceId: licensestatic
-
+#    dict: /dict/**
 
 #ribbon:
 #  eureka:
@@ -119,3 +78,40 @@ eureka:
 #  prefix:  /api
 #  routes:
 #    organizationservice: /organization/**
+
+---
+
+##### DEV #####
+
+spring:
+  profiles: dev
+  application:
+    name: gateway
+
+server:
+  port: 5555
+
+# JWT
+signing:
+  key: "345345fsdgsf5345"
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+logging:
+  level:
+    com.netflix: WARN
+    org.springframework.web: WARN
+    com.thoughtmechanix: DEBUG
+
+eureka:
+  instance:
+    hostname: dev.avocadostudio.xyz
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:8761/eureka/
