@@ -27,7 +27,8 @@ logging:
 
 eureka:
   instance:
-    hostname: localhost
+    hostname: dev.avocadostudio.xyz
+    #hostname: localhost
   client:
     registerWithEureka: true
     fetchRegistry: true
