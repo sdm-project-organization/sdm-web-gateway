@@ -1,4 +1,4 @@
-package com.mo.gateway.filters;
+package com.mo.gateway.filter;
 
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
@@ -14,9 +14,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class ResponseFilter extends ZuulFilter {
 
+    private static final Logger logger = LoggerFactory.getLogger(ResponseFilter.class);
+
     private static final int  FILTER_ORDER=1;
     private static final boolean  SHOULD_FILTER=true;
-    private static final Logger logger = LoggerFactory.getLogger(ResponseFilter.class);
 
     @Autowired
     FilterUtils filterUtils;
@@ -40,11 +41,15 @@ public class ResponseFilter extends ZuulFilter {
     public Object run() {
         RequestContext ctx = RequestContext.getCurrentContext();
         logger.debug("Adding the correlation id to the outbound headers. {}", filterUtils.getCorrelationId());
+        logger.debug("Adding the authorization to the outbound headers. {}", filterUtils.getAuthorization());
 
         // 원래 HTTP 요청에서 전달된 상관관계 ID를 가져와서 응답에 삽입
         ctx.getResponse().addHeader(FilterUtils.CORRELATION_ID, filterUtils.getCorrelationId());
+        ctx.getResponse().addHeader(FilterUtils.AUTHORIZATION, filterUtils.getAuthorization());
+
         // 처음부터 끝까지 주울에 들어오고 나가는 요청항목을 보여주기 위해 나가는 요청 URI 기록
         logger.debug("Completing outgoing request for {}.", ctx.getRequest().getRequestURI());
+
         return null;
     }
 }

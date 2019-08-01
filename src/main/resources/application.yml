@@ -6,6 +6,12 @@ server:
 signing:
   key: "345345fsdgsf5345"
 
+logging:
+  level:
+    com.netflix: WARN
+    org.springframework.web: DEBUG
+    com.mo: DEBUG
+
 env:
   host:
     local: localhost
@@ -33,12 +39,6 @@ management:
       exposure:
         include: "*"
 
-logging:
-    level:
-      com.netflix: WARN
-      org.springframework.web: WARN
-      com.thoughtmechanix: DEBUG
-
 eureka:
   instance:
     hostname: ${env.host.local}
@@ -57,6 +57,7 @@ zuul:
   routes:
     dict: /dict/**
     guard: /guard/**
+    auth: /auth/**
 
 #zuul:
 #  routes:
@@ -91,12 +92,6 @@ management:
       exposure:
         include: "*"
 
-logging:
-  level:
-    com.netflix: WARN
-    org.springframework.web: WARN
-    com.thoughtmechanix: DEBUG
-
 eureka:
   instance:
     hostname: dev.avocadostudio.xyz
@@ -105,3 +100,14 @@ eureka:
     fetchRegistry: true
     serviceUrl:
       defaultZone: http://${eureka.instance.hostname}:8761/eureka/
+
+# Euraka 이용하는 동적 매핑
+zuul:
+  #  ignored-service: 'gateway' # 자동경로매핑 제외
+  #  ignored-services: 'gateway' # 자동경로매핑 제외
+  ignored-services: '*' # 자동경로매핑 모두제외 (유레카기반의경로 모두제외)
+  prefix: /api
+  routes:
+    dict: /dict/**
+    guard: /guard/**
+    auth: /auth/**
