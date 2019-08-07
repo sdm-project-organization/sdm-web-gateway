@@ -112,7 +112,6 @@ public class TrackingFilter extends ZuulFilter {
             }
         }
 
-
         // * 상관관계 ID 설정
         if (isCorrelationIdPresent()) {
            logger.debug("tmx-correlation-id found in tracking filter: {}. ", filterUtils.getCorrelationId());
