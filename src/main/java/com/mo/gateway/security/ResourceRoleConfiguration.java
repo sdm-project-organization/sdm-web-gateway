@@ -15,7 +15,7 @@ public class ResourceRoleConfiguration {
     GuardDiscoveryClient guardDiscoveryClient;
 
     @Bean
-    public Map<String, List<String>> getRoles() {
+    public Map<String, Object> getRoleMap() {
         return guardDiscoveryClient.getRoles("hello");
     }
 }

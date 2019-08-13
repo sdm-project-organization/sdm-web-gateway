@@ -3,8 +3,10 @@ package com.mo.gateway.filter;
 import com.mo.gateway.config.ServiceConfig;
 import com.mo.gateway.security.ResourceRoleConfiguration;
 import com.mo.gateway.security.ResourceServerConfiguration;
+import com.mo.gateway.utils.RequestUtil;
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
+import com.netflix.zuul.exception.ZuulException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import org.slf4j.Logger;
@@ -12,6 +14,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -63,6 +67,9 @@ public class TrackingFilter extends ZuulFilter {
       return false;
     }
 
+    /**
+     *
+     * */
     private List<String> getAuthorities() {
         List<String> authorities = new ArrayList<>();
         if(filterUtils.getAuthorization() != null) {
@@ -81,12 +88,28 @@ public class TrackingFilter extends ZuulFilter {
         return authorities;
     }
 
-    private boolean access(List<String> myRoles, String reqPath) {
-        Map<String, List<String>> guardRoles = resourceRoleConfiguration.getRoles();
-        boolean result = myRoles.stream().anyMatch(myRole -> {
-            List<String> resources = guardRoles.get(myRole);
-            return resources.indexOf(reqPath) > 0;
-        });
+    /**
+     * access
+     *
+     * @param myRoles - 나의 권한 목록
+     * @param reqPath - gateway 에서 사용하는 prefix 제외한 URL
+     * */
+    private boolean access(List<String> myRoles, String reqPath, String reqMethod) {
+        if (reqPath.charAt(0) == '/')
+            reqPath = reqPath.substring(1);
+        String[] partOfPath = reqPath.split("/");
+
+        Map<String, Object> resultMap = resourceRoleConfiguration.getRoleMap();
+        for(String part : partOfPath) {
+            // TODO CastingException handleing
+            resultMap = RequestUtil.getNextMap(resultMap, part);
+        }
+
+        // TODO CastingException handleing
+        List<String> guardRoles = RequestUtil.getRoleList(resultMap, reqMethod);
+
+        boolean result = myRoles.stream()
+                .anyMatch((myRole) -> guardRoles.indexOf(myRole) > -1);
         return result;
     }
 
@@ -97,17 +120,18 @@ public class TrackingFilter extends ZuulFilter {
      * 2. JWT를 가지고 있을 때
      * */
     @Override
-    public Object run() throws RuntimeException {
+    public Object run() throws RuntimeException, ZuulException {
         RequestContext ctx = RequestContext.getCurrentContext();
-        String organization = "";
-        String reqPath = ctx.getRequest().getRequestURI();
+        HttpServletRequest request = ctx.getRequest();
+        String reqPath = request.getRequestURI();
+        String reqMethod = request.getMethod();
 
         if(reqPath.equals(ResourceServerConfiguration.PATH_LOGIN)) {
-            // [CASE1] LOGIN LOGIC
+            // [CASE1] 인증 LOGIC
             filterUtils.setAuthorization(ctx.getRequest().getHeader(FilterUtils.AUTHORIZATION));
         } else {
-            // [CASE2] JWT LOGIC
-            if(!access(getAuthorities(), reqPath)) {
+            // [CASE2] 인가 LOGIC
+            if(access(getAuthorities(), reqPath, reqMethod) == false) {
                 throw new RuntimeException();
             }
         }

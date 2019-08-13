@@ -1,5 +1,3 @@
-
-
 server:
   port: 5555
 
@@ -23,6 +21,10 @@ env:
     dev:
       port: 3306
       schema: GUARD
+
+mo:
+  rest:
+    pathVariable: {}
 
 ---
 
@@ -50,14 +52,24 @@ eureka:
 
 # Euraka 이용하는 동적 매핑
 zuul:
-#  ignored-service: 'gateway' # 자동경로매핑 제외
-#  ignored-services: 'gateway' # 자동경로매핑 제외
+  # ignored-service: 'gateway' # 자동경로매핑 제외
+  # ignored-services: 'gateway' # 자동경로매핑 제외
   ignored-services: '*' # 자동경로매핑 모두제외 (유레카기반의경로 모두제외)
-  prefix: /api
+  # sensitive-headers: # 헤더의 모든 정보를 bypass
+  # prefix: /api # stripPrefix 옵션에 적용되지 않음
   routes:
-    dict: /dict/**
-    guard: /guard/**
-    auth: /auth/**
+    dict:
+      path: /api/dict/**
+      serviceId: dict
+      stripPrefix: false
+    guard:
+      path: /api/guard/**
+      serviceId: guard
+      stripPrefix: false
+    auth:
+      path: /api/auth/**
+      serviceId: auth
+      stripPrefix: false
 
 #zuul:
 #  routes:

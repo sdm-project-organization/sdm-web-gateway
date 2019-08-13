@@ -20,7 +20,7 @@ public class GuardDiscoveryClient {
     @Autowired
     private DiscoveryClient discoveryClient;
 
-    public Map<String, List<String>> getRoles(String organizationId) {
+    public Map<String, Object> getRoles(String organizationId) {
         RestTemplate restTemplate = new RestTemplate();
 
         // 조직 서비스의 모든 인스턴스 목록 얻기 (ServiceInstance)
@@ -28,7 +28,7 @@ public class GuardDiscoveryClient {
         if (instances.size()==0) return null;
 
         // 호출할 서비스 엔드포인트 조회
-        String serviceUri = String.format("%s/roles/organizationname/%s",
+        String serviceUri = String.format("%s/api/guard/roles/orgname/%s/restmap",
                 instances.get(0).getUri().toString(), organizationId);
 
         // 서비스를 호출하는데 표준 스프링 RestTemplate 클래스 사용
